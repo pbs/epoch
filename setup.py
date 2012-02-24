@@ -10,7 +10,8 @@ dependencies = [
     'pbs_uua_consumer',
     'python-openid',
     'righteous',
-    'boto'
+    'boto',
+    'south'
 ]
 
 dependency_links = [

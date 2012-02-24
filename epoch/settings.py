@@ -119,8 +119,10 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
     
+    'south',
     # pbs apps
     'pbs_uua_consumer',
+    'rightscale',
 )
 
 # Authentication configuration
@@ -143,6 +145,8 @@ OPENID_USE_POPUP_MODE = True
 UUA_CONSUMER_SHARED_KEY = 'DQdy72zmGaAbofpUCbvxpA'
 UUA_CONSUMER_SECRET_KEY = 'IhIUlfaIHS9XrNVJKtiOpX6qqLTkRuj-BocLYuBGu3k'
 LOGIN_URL = 'my_uua_consumer/login'
+
+AUTH_PROFILE_MODULE = 'rightscale.UserRightScaleProfile'
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error.
