@@ -9,7 +9,8 @@ dependencies = [
     'django==1.3',
     'pbs_uua_consumer',
     'python-openid',
-    'righteous'
+    'righteous',
+    'boto'
 ]
 
 dependency_links = [
@@ -28,6 +29,6 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=dependencies,
-    setup_requires=['versiontools',],
+    setup_requires=['versiontools','s3sourceuploader'],
     dependency_links=dependency_links,
 )

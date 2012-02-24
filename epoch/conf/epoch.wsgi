@@ -1,7 +1,7 @@
 import os
 
 # This will activate the virtualenv. See activate_this file for more info.
-path_to_activate = '/home/devel/deployed/current/ve/bin/activate_this.py'
+path_to_activate = '/home/devel/deployed/current/epoch/ve/bin/activate_this.py'
 execfile(path_to_activate, dict(__file__=path_to_activate))
 
 # Now we need to configure the actual wsgi application
