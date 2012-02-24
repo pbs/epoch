@@ -1,32 +1,19 @@
 Epoch! : PBS management tool for Righscale environments
 =========================================
 
-Features:
+Install for dev::
 
-    * Register / Delete New Deployments
-    * Register / Delete Single Server
-        - Misc Servers Section
-    * Register / Delete Single RDS
-        - Misc RDS Section
-    * Deployment operational hours
-        - Server operational from time till time
-        - Registered in UTC (for forms sake probably)
-        - Web app time zone sensitive (or it may makes sense to hard wire to EST since its internal only)
-    * Start Deployment Now
-        - Auto Next Check Override
-        - This is to insure servers are turned off too soon
-    * Stop Deployment Now
-        - Starts Normally Next Check
-    * UUA Login
-        - Groups or Deployment based assignments
-        - this is some extended functionality.
-        - simple UUA authentication is all thats needed
+   git clone git@github.com:pbs/epoch.git
 
+reconfigure epoch/settings.py if you want
 
-Some missing considerations:
-    * RDS Slaves
-        - do they need to register with HA Proxy
-        - can this be automated
-    * execution of backup script
-        - Is there a way to do this as part of the (prior) stop command
-        - Does it matter in the case of application servers?
+create a virtual environment:: 
+   virtualenv --distribute ve --prompt='(epoch)'
+activate virtual environment::
+   . ./ve/bin/activate
+install the project::
+   python setup.py develop
+create database and models::
+   django-admin.py syncdb --settings=epoch.settings
+run the server for local development::
+   django-admin.py runserver 127.0.0.1 --settings=epoch.settings
