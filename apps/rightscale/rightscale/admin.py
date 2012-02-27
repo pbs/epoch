@@ -102,7 +102,7 @@ def rightscale_start_deployment(request, nickname):
                 else:
                     messages.add_message(request,
                                          messages.INFO,
-                                         'Server %s is already startet or is booting up. Start command not sent' % server['nickname'])
+                                         'Server %s is already started or is booting up. Start command not sent' % server['nickname'])
             else:
                 messages.add_message(request,
                                      messages.INFO,
@@ -123,7 +123,7 @@ class UserRightScaleProfileAdmin(UserAdmin):
     
 
 class DeploymentAdmin(admin.ModelAdmin):
-    list_display = ('nickname', 'synced', 'view_servers_link', 'shutdown_link')
+    list_display = ('nickname', 'synced', 'view_servers_link', 'shutdown_link', 'start_link')
     readonly_fields = ('synced', 'created_at', 'updated_at', 'href')
     search_fields = ['nickname']
     
@@ -137,6 +137,12 @@ class DeploymentAdmin(admin.ModelAdmin):
         return mark_safe('<a href="%s">Go</a>' % reverse('admin:%s_%s_shutdown' % info, args=(obj.id,)))
     shutdown_link.allow_tags=True
     shutdown_link.short_description='Shutdown'
+    
+    def start_link(self, obj):
+        info = self.model._meta.app_label, self.model._meta.module_name
+        return mark_safe('<a href="%s">Go</a>' % reverse('admin:%s_%s_start' % info, args=(obj.id,)))
+    start_link.allow_tags=True
+    start_link.short_description='Start'
     
     def save_model(self, request, obj, form, change):
         deployment = rightscale_create_deployment(request.user, obj.nickname, obj.description)
@@ -157,7 +163,7 @@ class DeploymentAdmin(admin.ModelAdmin):
         my_urls = patterns('',
             (r'^refresh/$', self.get_all),
             url(r'^(.+)/shutdown/$', self.shutdown, name='%s_%s_shutdown' % info),
-            url(r'^(.+)/start/$', self.shutdown, name='%s_%s_start' % info),
+            url(r'^(.+)/start/$', self.start, name='%s_%s_start' % info),
             url(r'^(.+)/servers/$', self.servers, name='%s_%s_servers' % info),
         )
         return my_urls + urls
