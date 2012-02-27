@@ -173,6 +173,7 @@ class DeploymentAdmin(admin.ModelAdmin):
     
     def get_all(self, request):
         rightscale_refresh_deployments(request.user)
+        messages.add_message(request, messages.INFO, 'Rightscale deployments information updated')
         return redirect(reverse('admin:rightscale_deployment_changelist'))
     
     def shutdown(self, request, obj):
@@ -192,8 +193,21 @@ class DeploymentAdmin(admin.ModelAdmin):
 
 class ServerAdmin(admin.ModelAdmin):
     search_fields = ['=deployment__nickname']
+    list_display = ('nickname', 'state')
+    def get_urls(self):
+        urls = super(ServerAdmin, self).get_urls()
+        info = self.model._meta.app_label, self.model._meta.module_name
+        
+        my_urls = patterns('',
+            (r'^refresh/$', self.get_all),
+        )
+        return my_urls + urls
     
-
+    def get_all(self, request):
+        rightscale_refresh_deployments(request.user)
+        messages.add_message(request, messages.INFO, 'Rightscale deployments information updated')
+        return redirect(reverse('admin:rightscale_server_changelist'))
+        
 admin.site.register(User, UserRightScaleProfileAdmin)
 admin.site.register(Deployment, DeploymentAdmin)
 admin.site.register(Server, ServerAdmin)
