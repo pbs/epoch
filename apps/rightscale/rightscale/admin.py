@@ -91,6 +91,7 @@ class UserRightScaleProfileAdmin(UserAdmin):
 class DeploymentAdmin(admin.ModelAdmin):
     list_display = ('nickname', 'synced', 'view_servers_link', 'shutdown_link')
     readonly_fields = ('synced', 'created_at', 'updated_at', 'href')
+    search_fields = ['nickname']
     
     def view_servers_link(self, obj):
         return mark_safe('<a href="%s/servers/">Go</a>' % obj.id)
