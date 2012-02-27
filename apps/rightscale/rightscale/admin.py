@@ -67,12 +67,13 @@ def rightscale_create_deployment(user, nickname, description):
     deployment = api.create_deployment(nickname, description)
     return api.find_deployment(nickname)
 
-def rightscale_shutdown_deployment(user, nickname):
-    rightscale_connect(user)
+def rightscale_shutdown_deployment(request, nickname):
+    rightscale_connect(request.user)
     deployment = api.find_deployment(nickname)
     if deployment:
         for server in deployment['servers']:
-            pass        
+            messages.add_message(request, messages.INFO, 'Issuing "shutdown" (simulated) command on %s' % server['nickname'])
+            
     return True
 
 class UserRightScaleProfileInline(admin.StackedInline):
@@ -133,8 +134,7 @@ class DeploymentAdmin(admin.ModelAdmin):
     
     def shutdown(self, request, obj):
         deployment = Deployment.objects.get(pk=obj)
-        rs_depl = rightscale_shutdown_deployment(request.user, deployment.nickname)
-        messages.add_message(request, messages.INFO, 'Deployment simulated shutdown')
+        rs_depl = rightscale_shutdown_deployment(request, deployment.nickname)
         return redirect(reverse('admin:rightscale_deployment_changelist'))
     
     def servers(self, request, obj):
