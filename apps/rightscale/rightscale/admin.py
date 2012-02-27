@@ -72,8 +72,41 @@ def rightscale_shutdown_deployment(request, nickname):
     deployment = api.find_deployment(nickname)
     if deployment:
         for server in deployment['servers']:
-            messages.add_message(request, messages.INFO, 'Issuing "shutdown" (simulated) command on %s' % server['nickname'])
-            
+            if deployment['href']=='https://my.rightscale.com/api/acct/12211/deployments/222115001':
+                if server['state']=='operational':
+                    messages.add_message(request,
+                                         messages.INFO,
+                                         'Issuing shutdown (real) command on %s' % server['nickname'])
+                    api.stop_server(server['href'])
+                else:
+                    messages.add_message(request,
+                                         messages.INFO,
+                                         'Server %s not in operational mode. Shutdown command not sent' % server['nickname'])
+            else:
+                messages.add_message(request,
+                                     messages.INFO,
+                                     'Issuing shutdown (simulated) command on %s' % server['nickname'])
+    return True
+
+def rightscale_start_deployment(request, nickname):
+    rightscale_connect(request.user)
+    deployment = api.find_deployment(nickname)
+    if deployment:
+        for server in deployment['servers']:
+            if deployment['href']=='https://my.rightscale.com/api/acct/12211/deployments/222115001':
+                if server['state']=='stopped':
+                    messages.add_message(request,
+                                         messages.INFO,
+                                         'Issuing start (real) command on %s' % server['nickname'])
+                    api.start_server(server['href'])
+                else:
+                    messages.add_message(request,
+                                         messages.INFO,
+                                         'Server %s is already startet or is booting up. Start command not sent' % server['nickname'])
+            else:
+                messages.add_message(request,
+                                     messages.INFO,
+                                     'Issuing start (simulated) command on %s' % server['nickname'])
     return True
 
 class UserRightScaleProfileInline(admin.StackedInline):
@@ -124,6 +157,7 @@ class DeploymentAdmin(admin.ModelAdmin):
         my_urls = patterns('',
             (r'^refresh/$', self.get_all),
             url(r'^(.+)/shutdown/$', self.shutdown, name='%s_%s_shutdown' % info),
+            url(r'^(.+)/start/$', self.shutdown, name='%s_%s_start' % info),
             url(r'^(.+)/servers/$', self.servers, name='%s_%s_servers' % info),
         )
         return my_urls + urls
@@ -135,6 +169,11 @@ class DeploymentAdmin(admin.ModelAdmin):
     def shutdown(self, request, obj):
         deployment = Deployment.objects.get(pk=obj)
         rs_depl = rightscale_shutdown_deployment(request, deployment.nickname)
+        return redirect(reverse('admin:rightscale_deployment_changelist'))
+        
+    def start(self, request, obj):
+        deployment = Deployment.objects.get(pk=obj)
+        rs_depl = rightscale_start_deployment(request, deployment.nickname)
         return redirect(reverse('admin:rightscale_deployment_changelist'))
     
     def servers(self, request, obj):
