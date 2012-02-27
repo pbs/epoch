@@ -8,10 +8,11 @@ README_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)),
 dependencies = [
     'django==1.3',
     'pbs_uua_consumer',
-    'python-openid',
+    'python-openid==2.2.5',
     'righteous',
-    'boto',
-    'south'
+    'boto==2.2.2',
+    'south==0.7.3',
+    'python-dateutil==1.5'
 ]
 
 dependency_links = [
