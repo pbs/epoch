@@ -85,7 +85,8 @@ def rightscale_shutdown_deployment(request, nickname):
             else:
                 messages.add_message(request,
                                      messages.INFO,
-                                     'Issuing shutdown (simulated) command on %s' % server['nickname'])
+                                     'Issuing shutdown (simulated) command on %s. Server state is %s.' % (server['nickname'],
+                                                                                                          server['state']))
     return True
 
 def rightscale_start_deployment(request, nickname):
@@ -106,7 +107,9 @@ def rightscale_start_deployment(request, nickname):
             else:
                 messages.add_message(request,
                                      messages.INFO,
-                                     'Issuing start (simulated) command on %s' % server['nickname'])
+                                     'Issuing start (simulated) command on %s. Server state is %s' % (server['nickname'],
+                                                                                                      server['state']
+                                                                                                      ))
     return True
 
 class UserRightScaleProfileInline(admin.StackedInline):
