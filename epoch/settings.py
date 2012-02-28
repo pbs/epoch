@@ -64,8 +64,8 @@ STATIC_URL = '/static/'
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
 # Examples: "http://foo.com/static/admin/", "/static/admin/".
-ADMIN_MEDIA_PREFIX = '/static/admin/'
-
+ADMIN_MEDIA_PREFIX = '/static/grappelli/'
+GRAPPELLI_ADMIN_TITLE = 'PBS Epoch'
 # Additional locations of static files
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
@@ -115,6 +115,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
+    'grappelli',
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
@@ -144,6 +145,7 @@ OPENID_USE_AS_ADMIN_LOGIN = True
 OPENID_USE_POPUP_MODE = True
 UUA_CONSUMER_SHARED_KEY = 'DQdy72zmGaAbofpUCbvxpA'
 UUA_CONSUMER_SECRET_KEY = 'IhIUlfaIHS9XrNVJKtiOpX6qqLTkRuj-BocLYuBGu3k'
+OPENID_ADMIN_LOGIN_TEMPLATE = 'admin/pbs.login.html'
 LOGIN_URL = 'my_uua_consumer/login'
 
 AUTH_PROFILE_MODULE = 'rightscale.UserRightScaleProfile'

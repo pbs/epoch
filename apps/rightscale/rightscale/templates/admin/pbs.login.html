@@ -1,0 +1,29 @@
+{% extends "admin/login.html" %}
+{% load i18n %}
+
+{% block extrahead %}
+<script type="text/javascript" src="{{ sso_js_url }}jquery/jquery.min.js"></script>
+<script type="text/javascript" src="{{ sso_js_url }}popup.js"></script>
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+
+    {% if popup_mode %}
+        <script>
+        LOGIN_PATH_POPUP_ENABLED = '{{ sso_url }}';
+        LOGIN_PATH_WITH_REDIRECT = '';
+        LOGIN_PROCESSING_PAGE = '';
+        </script>
+    {% endif %}
+
+    
+        <div class="container-flexible-login" style="text-align:center;">
+         <div class="column span-12 centered">
+            <div class="row">
+            <p>{% trans 'Or:' %}</p>
+           {{ openid_login_link }}
+            </div>
+         </div>
+        </div>
+{% endblock %}

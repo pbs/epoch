@@ -194,6 +194,7 @@ class DeploymentAdmin(admin.ModelAdmin):
 class ServerAdmin(admin.ModelAdmin):
     search_fields = ['=deployment__nickname']
     list_display = ('nickname', 'state')
+    
     def get_urls(self):
         urls = super(ServerAdmin, self).get_urls()
         info = self.model._meta.app_label, self.model._meta.module_name

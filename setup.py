@@ -12,7 +12,8 @@ dependencies = [
     'righteous',
     'boto==2.2.2',
     'south==0.7.3',
-    'python-dateutil==1.5'
+    'python-dateutil==1.5',
+    'django-grappelli==2.3.7'
 ]
 
 dependency_links = [
