@@ -6,7 +6,7 @@ README_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)),
                         'README.rst')
                         
 dependencies = [
-    'django==1.3',
+    'django==2.2.24',
     'pbs_uua_consumer',
     'python-openid==2.2.5',
     'righteous',
